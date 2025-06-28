@@ -52,7 +52,6 @@ export async function extractResumeData(text) {
   });
 
   const rawText = response.candidates[0].content.parts[0].text;
-  console.log(rawText);
 
   try {
     const jsonStart = rawText.indexOf("{");

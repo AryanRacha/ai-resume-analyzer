@@ -15,9 +15,12 @@ const TABLE_ID = process.env.TABLE_ID;
 cloudEvent("resumeAnalyzer", async (event) => {
   try {
     const { bucket, name: fileName } = event.data;
-    console.log(`New file detected: ${fileName} in bucket ${bucket}`);
+    console.log(
+      `📄 New resume detected: "${fileName}" in bucket "${bucket}". Starting analysis...`
+    );
 
     const fileContent = await fetchFileContent(bucket, fileName);
+    console.log(`☁️ Successfully fetched file content from Cloud Storage.`);
 
     const processorName = `projects/${PROJECT_ID}/locations/${LOCATION}/processors/${PROCESSOR_ID}`;
     const request = {
@@ -28,15 +31,24 @@ cloudEvent("resumeAnalyzer", async (event) => {
       },
     };
 
+    console.log(
+      `🤖 Sending document to Document AI processor: ${processorName}`
+    );
     const [result] = await documentaiClient.processDocument(request);
     const document = result.document;
 
     const extractedText = document.text || "No text extracted";
-    console.log("Text extracted from Document AI.", extractedText);
+    console.log(
+      `✅ Text successfully extracted from Document AI (length: ${extractedText.length} characters).`
+    );
 
+    console.log(`🔎 Extracting structured resume data using Gemini...`);
     const resumeData = await extractResumeData(extractedText);
-    console.log("Structured data from Gemini:", resumeData);
+    console.log(`🎯 Resume data extracted:`, resumeData);
 
+    console.log(
+      `📥 Inserting structured data into BigQuery dataset "${DATASET_ID}", table "${TABLE_ID}"...`
+    );
     await bigquery
       .dataset(DATASET_ID)
       .table(TABLE_ID)
@@ -56,8 +68,10 @@ cloudEvent("resumeAnalyzer", async (event) => {
         },
       ]);
 
-    console.log(`Successfully saved analysis for ${fileName} to BigQuery!`);
+    console.log(
+      `🚀 Successfully saved analysis for "${fileName}" to BigQuery! 🎉`
+    );
   } catch (error) {
-    console.error("Error in resumeAnalyzer:", error);
+    console.error(`❌ Error during resume analysis:`, error);
   }
 });
