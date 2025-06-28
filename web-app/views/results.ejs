@@ -1,9 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Results</title>
+    <title>Resume Analysis Results</title>
+    <link rel="stylesheet" href="styles/results.css" />
   </head>
-  <body></body>
+  <body>
+    <h1>Resume Analysis Results</h1>
+    <div class="container">
+      <% resumes.forEach(resume => { %>
+      <div class="card">
+        <h2><%= resume.candidate_name %></h2>
+        <p><strong>Email:</strong> <%= resume.email %></p>
+        <p><strong>Phone:</strong> <%= resume.phone %></p>
+        <p><strong>Education:</strong> <%= resume.education %></p>
+        <p><strong>Experience:</strong> <%= resume.years_of_experience %></p>
+        <p><strong>Last Company:</strong> <%= resume.last_company %></p>
+
+        <% if (resume.skills) { const skills = JSON.parse(resume.skills); %>
+        <h3>Skills</h3>
+        <ul>
+          <% Object.entries(skills).forEach(([category, items]) => { %>
+          <li><strong><%= category %>:</strong> <%= items.join(", ") %></li>
+          <% }) %>
+        </ul>
+        <% } %> <% if (resume.projects) { const projects =
+        JSON.parse(resume.projects); %>
+        <h3>Projects</h3>
+        <ul>
+          <% projects.forEach(project => { %>
+          <li>
+            <strong><%= project.title %>:</strong> <%= project.summary %> (<%=
+            project.tech_stack %>)
+          </li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
+      <% }) %>
+    </div>
+  </body>
 </html>

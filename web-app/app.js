@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import { Storage } from "@google-cloud/storage";
+import { BigQuery } from "@google-cloud/bigquery";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -9,11 +10,16 @@ dotenv.config();
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
 const storage = new Storage();
+const bigquery = new BigQuery();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join("public")));
 app.set("view engine", "ejs");
+
+const PROJECT_ID = process.env.PROJECT_ID;
+const DATASET_ID = process.env.DATASET_ID;
+const TABLE_ID = process.env.TABLE_ID;
 
 // Index Page
 app.get("/", (req, res) => {
@@ -55,8 +61,16 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 // Results Page
-app.get("/results", (req, res) => {
-  return res.render("result");
+app.get("/results", async (req, res) => {
+  try {
+    const query = `SELECT * FROM \`${PROJECT_ID}.${DATASET_ID}.${TABLE_ID}\` ORDER BY created_at DESC LIMIT 20`;
+    const [rows] = await bigquery.query({ query });
+
+    res.render("results", { resumes: rows });
+  } catch (error) {
+    console.error("Error fetching results from BigQuery:", error);
+    res.status(500).send("Error fetching results");
+  }
 });
 
 const port = process.env.PORT || 3000;
