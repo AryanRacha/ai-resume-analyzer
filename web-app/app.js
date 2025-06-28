@@ -28,14 +28,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
       return res.status(400).send("No file uploaded");
     }
 
-    // ✅ Only allow PDF and DOCX
-    const allowedMimeTypes = [
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-
-    if (!allowedMimeTypes.includes(file.mimetype)) {
-      return res.status(400).send("Only PDF and DOCX files are allowed");
+    if (file.mimetype !== "application/pdf") {
+      return res.status(400).send("Only PDF files are allowed");
     }
 
     const uniqueName = `${Date.now()}-${file.originalname}`;
