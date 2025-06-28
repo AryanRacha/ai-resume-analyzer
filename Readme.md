@@ -4,32 +4,9 @@ This project is a **Resume Analyzer Tool** built using Google Cloud Platform (GC
 
 It allows recruiters to analyze resumes stored in Google Cloud Storage, extract important data using Document AI and Gemini, and view ranked results in a professional dashboard.
 
-## 💡 Features
+## 🎥 Demo Video
 
-- ✅ Upload resumes (PDF) directly to GCS bucket
-- ✅ Automated text extraction using **Document AI**
-- ✅ Advanced summarization & structured parsing using **Gemini AI**
-- ✅ Stores analysis in **BigQuery**
-- ✅ SSR web app to view all analyzed resumes
-- ✅ Clean, modern UI with detailed candidate info
-
-## 🏗️ Architecture
-
-```
-            Recruiter Upload
-                    ↓
-                GCS Bucket
-                    ↓
-  Trigger Cloud Function (Event-Driven)
-                    ↓
-      Document AI: Extract raw text
-                    ↓
-  Gemini: Summarize & structure into JSON
-                    ↓
-      BigQuery: Store candidate data
-                    ↓
-Web App: Display results on /results page
-```
+https://github.com/user-attachments/assets/4918b5c0-14cd-4454-85a2-82ce08197bf1
 
 ## 🚀 Technologies Used
 
@@ -41,6 +18,11 @@ Web App: Display results on /results page
 - Gemini AI (Google GenAI SDK)
 - BigQuery
 
+## 🏗️ Architecture
+
+![image](https://github.com/user-attachments/assets/ed0edce4-8374-452c-b578-5a6783ee09c9)
+
+
 ## 💬 How It Works
 
 1️⃣ Recruiter uploads resumes to a GCS bucket.  
@@ -51,15 +33,7 @@ Web App: Display results on /results page
 
 ## ⚡ Quick Start
 
-### Web App
-
-```bash
-cd web-app
-npm install
-npm start
-```
-
-Visit http://localhost:3000/results to view analyzed resumes.
+### Deploy the Cloud Function
 
 ```bash
 cd cloud-function
@@ -77,4 +51,16 @@ gcloud functions deploy resumeAnalyzer \
   --set-env-vars="PROJECT_ID=your-project-id,LOCATION=us,PROCESSOR_ID=your-processor-id,DATASET_ID=your-dataset-id,TABLE_ID=resumes,GEMINI_API_KEY=your-gemini-key"
 ```
 
-Use **`** instead of \ for Windows
+Note: Use **`** instead of \ for Windows
+
+### Start the Web App
+
+```bash
+cd web-app
+npm install
+npm start
+```
+
+Visit http://localhost:3000/results to view analyzed resumes.
+
+
