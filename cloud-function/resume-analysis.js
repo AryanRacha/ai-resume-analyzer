@@ -51,6 +51,7 @@ cloudEvent("resumeAnalyzer", async (event) => {
           years_of_experience: resumeData.years_of_experience || "",
           last_company: resumeData.last_company || "",
           projects: JSON.stringify(resumeData.projects || []),
+          summary: resumeData.summary || "Not available",
           created_at: new Date().toISOString(),
         },
       ]);

@@ -35,7 +35,8 @@ export async function extractResumeData(text) {
                     "summary": "",
                     "tech_stack": ""
                   }
-                ]
+                ],
+                "summary": "Summarize the resume here..."
               }
 
               Resume text:
