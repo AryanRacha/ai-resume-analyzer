@@ -4,8 +4,6 @@ This project is a **Resume Analyzer Tool** built using Google Cloud Platform (GC
 
 It allows recruiters to analyze resumes stored in Google Cloud Storage, extract important data using Document AI and Gemini, and view ranked results in a professional dashboard.
 
----
-
 ## 💡 Features
 
 - ✅ Upload resumes (PDF) directly to GCS bucket
@@ -15,27 +13,23 @@ It allows recruiters to analyze resumes stored in Google Cloud Storage, extract 
 - ✅ SSR web app to view all analyzed resumes
 - ✅ Clean, modern UI with detailed candidate info
 
----
-
 ## 🏗️ Architecture
 
 ```
-                    Recruiter Upload
-                            ↓
-                        GCS Bucket
-                            ↓
-          Trigger Cloud Function (Event-Driven)
-                            ↓
-              Document AI: Extract raw text
-                            ↓
-          Gemini: Summarize & structure into JSON
-                            ↓
-              BigQuery: Store candidate data
-                            ↓
-        Web App: Display results on /results page
+            Recruiter Upload
+                    ↓
+                GCS Bucket
+                    ↓
+  Trigger Cloud Function (Event-Driven)
+                    ↓
+      Document AI: Extract raw text
+                    ↓
+  Gemini: Summarize & structure into JSON
+                    ↓
+      BigQuery: Store candidate data
+                    ↓
+Web App: Display results on /results page
 ```
-
----
 
 ## 🚀 Technologies Used
 
@@ -47,8 +41,6 @@ It allows recruiters to analyze resumes stored in Google Cloud Storage, extract 
 - Gemini AI (Google GenAI SDK)
 - BigQuery
 
----
-
 ## 💬 How It Works
 
 1️⃣ Recruiter uploads resumes to a GCS bucket.  
@@ -56,8 +48,6 @@ It allows recruiters to analyze resumes stored in Google Cloud Storage, extract 
 3️⃣ The function uses Document AI to extract text, then sends it to Gemini to convert into structured JSON (skills, projects, experience, etc.).  
 4️⃣ The data is inserted into BigQuery for analysis.  
 5️⃣ The web app queries BigQuery and shows a results dashboard.
-
----
 
 ## ⚡ Quick Start
 
@@ -86,3 +76,5 @@ gcloud functions deploy resumeAnalyzer \
   --source=. \
   --set-env-vars="PROJECT_ID=your-project-id,LOCATION=us,PROCESSOR_ID=your-processor-id,DATASET_ID=your-dataset-id,TABLE_ID=resumes,GEMINI_API_KEY=your-gemini-key"
 ```
+
+Use **`** instead of \ for Windows
